@@ -1,0 +1,44 @@
+{% extends 'shop/base_generic.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+    <div class="order-confirmation-container">
+        <h1>Order Confirmation</h1>
+        <p>Thank you for your order! Your order ID is <strong>{{ order.id }}</strong>.</p>
+        <p>Your order is being processed and will be shipped soon. You will receive an email with tracking information once your order is shipped.</p>
+
+        <h2>Order Details</h2>
+        <table class="order-details-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.cart.cart_items.all %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>${{ item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.total_price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="cart-total">Order Total:</td>
+                    <td class="cart-total">${{ order.get_total_price }}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="action-buttons">
+            <a href="{% url 'shop:product_list' %}" class="btn">Continue Shopping</a>
+            <a href="{% url 'shop:cart_detail' %}" class="btn">Go to Cart</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'shop/base_generic.html' %}
+{% load static %}
+
+{% block title %}Login - My E-commerce Site{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Login</h2>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Login</button>
+    </form>
+    <p class="auth-switch">
+        Don't have an account? 
+        <a href="{% url 'shop:signup' %}">Sign up</a>
+    </p>
+</div>
+{% endblock %}

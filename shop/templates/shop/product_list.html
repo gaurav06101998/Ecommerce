@@ -1,0 +1,130 @@
+{% extends 'shop/base_generic.html' %}
+{% load static %}
+
+{% block title %}Product List{% endblock %}
+
+{% block content %}
+<h2>Our Product List</h2>
+
+<!-- New Products Section with Image Slider -->
+<section class="new-products">
+    <h2>New Products</h2>
+    <div class="product-slider">
+        <div class="slider">
+            {% for slider_image in slider_images %}
+                <div class="slider-item">
+                    <div class="product-image-container">
+                        {% if slider_image.image %}
+                            <a href="{% url 'shop:product_detail' slider_image.product.id %}">
+                                <img src="{{ slider_image.image.url }}" alt="{{ slider_image.title }}" class="product-image">
+                            </a>
+                        {% else %}
+                            <div class="no-image-placeholder">
+                                <p>No image available</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No slider images available.</p>
+            {% endfor %}
+        </div>
+        <!-- Slider Navigation -->
+        <div class="slider-nav">
+            <button class="prev-btn">&lt;</button>
+            <button class="next-btn">&gt;</button>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="product-list-container">
+        {% for product in featured_products %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    {% if product.image %}
+                        <a href="{% url 'shop:product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                        </a>
+                    {% else %}
+                        <div class="no-image-placeholder">
+                            <p>No image available</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-price">${{ product.price }}</p>
+                    <a href="{% url 'shop:product_detail' product.id %}" class="btn">View Details</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No featured products available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Best Selling Products Section -->
+<section class="best-selling-products">
+    <h2>Best Sellers</h2>
+    <div class="product-list-container">
+        {% for product in best_selling_products %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    {% if product.image %}
+                        <a href="{% url 'shop:product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                        </a>
+                    {% else %}
+                        <div class="no-image-placeholder">
+                            <p>No image available</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-price">${{ product.price }}</p>
+                    <a href="{% url 'shop:product_detail' product.id %}" class="btn">View Details</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No best-selling products available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Discounted Products Section -->
+<section class="discounted-products">
+    <h2>Discounted Products</h2>
+    <div class="product-list-container">
+        {% for product in discounted_products %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    {% if product.image %}
+                        <a href="{% url 'shop:product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                        </a>
+                    {% else %}
+                        <div class="no-image-placeholder">
+                            <p>No image available</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-price">${{ product.price }}</p>
+                    <a href="{% url 'shop:product_detail' product.id %}" class="btn">View Details</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No discounted products available.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+
+{% block slider_js %}
+<script src="{% static 'js/slider.js' %}"></script>
+{% endblock %}

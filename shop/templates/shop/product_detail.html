@@ -1,0 +1,67 @@
+{% extends 'shop/base_generic.html' %}
+{% load static %}
+
+{% block content %}
+<div class="product-detail-container">
+  <div class="product-detail">
+    <!-- Product Title -->
+    <h1 class="product-title">{{ product.name }}</h1>
+
+    <!-- Image Slider -->
+    <div class="product-slider-container">
+      <div class="product-slider">
+        {% for image in product.images.all %}
+          <div class="product-slider-item">
+            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="slider-image">
+          </div>
+        {% empty %}
+          <div class="product-slider-item">
+            <div class="no-image-placeholder">
+              <p>No image available</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Slider Navigation Buttons -->
+      <button class="prev-btn">&lt;</button>
+      <button class="next-btn">&gt;</button>
+
+      <!-- Slider Dots -->
+      <div class="slider-dots">
+        {% for image in product.images.all %}
+          <span class="dot"></span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Product Info: Description and Price -->
+    <div class="product-info">
+      <p class="product-description">{{ product.description }}</p>
+      <p class="product-price"><strong>Price:</strong> ${{ product.price }}</p>
+    </div>
+
+    <!-- Quantity Selector and Add to Cart Button -->
+    <div class="product-actions">
+      <form method="POST" action="{% url 'shop:add_to_cart' product.id %}">
+        {% csrf_token %}
+        <div class="quantity-selector">
+          <label for="quantity">Quantity:</label>
+          <div class="quantity-control">
+            <button type="button" class="quantity-btn decrement-btn">-</button>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+            <button type="button" class="quantity-btn increment-btn">+</button>
+          </div>
+        </div>
+        <button type="submit" class="btn add-to-cart-btn">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block slider_js %}
+<script src="{% static 'js/product_slider.js' %}"></script>
+<script src="{% static 'js/quantity_control.js' %}"></script>
+{% endblock %}
