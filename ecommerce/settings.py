@@ -1,5 +1,6 @@
 import dj_database_url
 from pathlib import Path
+from decouple import config
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -10,14 +11,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "django-secret"
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = 'true'
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'True'
-# ALLOWED_HOSTS =[]
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(' ')
 
 LOGGING = {
     'version': 1,
@@ -68,16 +67,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'admin_tools',
-    # 'admin_tools.theming',
-    # 'admin_tools.dashboard',
-    'shop',  # Add your custom apps here
+    'shop',  # Your custom app
 ]
-ADMIN_TOOLS_INDEX_DASHBOARD = 'shop.admin_tools.dashboard.CustomDashboard'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Whitenoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,19 +86,18 @@ ROOT_URLCONF = 'ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'shop/templates'],  #  `templates` directory
+        'DIRS': [BASE_DIR / 'shop/templates'],  # Path to your templates directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',  # Important for accessing `request` in templates
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
-
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
@@ -120,7 +114,9 @@ DATABASES = {
 database_url = os.environ.get('DATABASES_URL')
 DATABASES['default'] = dj_database_url.parse(database_url)
 
-
+# DATABASES = {
+#     'default': dj_database_url.parse(config('DATABASES_URL', default=''), conn_max_age=600, ssl_require=True)
+# }
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -157,19 +153,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'shop/templates/shop/static',  #  static directory
+    BASE_DIR / 'shop/static',  # Path to your static directory
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (Uploaded files like images, etc.)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'products'  # Ensure this directory exists in your project
+MEDIA_ROOT = BASE_DIR / 'media'  # Ensure this directory exists in your project
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# settings.py
-
-
