@@ -10,11 +10,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = "django-secret"
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = 'true'
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'True'
-
+# ALLOWED_HOSTS =[]
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
 
 LOGGING = {
@@ -75,6 +77,7 @@ ADMIN_TOOLS_INDEX_DASHBOARD = 'shop.admin_tools.dashboard.CustomDashboard'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -156,6 +159,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'shop/templates/shop/static',  #  static directory
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (Uploaded files like images, etc.)
 MEDIA_URL = '/media/'
