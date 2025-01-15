@@ -111,12 +111,12 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-database_url = os.environ.get('DATABASES_URL')
-DATABASES['default'] = dj_database_url.parse(database_url)
+# database_url = os.environ.get('DATABASES_URL')
+# DATABASES['default'] = dj_database_url.parse(database_url)
 
-# DATABASES = {
-#     'default': dj_database_url.parse(config('DATABASES_URL', default=''), conn_max_age=600, ssl_require=True)
-# }
+DATABASES = {
+    'default': dj_database_url.parse(config('DATABASES_URL', default=''), conn_max_age=600, ssl_require=True)
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -153,7 +153,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'shop/static',  # Path to your static directory
+    BASE_DIR / 'shop/templates/shop/static',  # Path to your static directory
+    BASE_DIR / 'shop/templates/admin',  # Path to your static directory
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
