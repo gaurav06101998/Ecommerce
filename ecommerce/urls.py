@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/', include('shop.urls', namespace='shop')),  # Include the app's URLs
     path('accounts/', include('django.contrib.auth.urls')),  # Includes logout functionality
+    path('', include('shop.urls', namespace='shop')), 
 ]
 
 # Serve media files in development

@@ -1,0 +1,21 @@
+# Ignore the virtual environment directory
+env/
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore the Django migration files
+*.log
+*.sqlite3
+db.sqlite3
+
+# Ignore static files (if you're not serving them from the repo)
+static/
+
+# Ignore media files (if you don't want to commit user-uploaded content)
+media/
+
+# Ignore Django secret key and configuration files
+*.env
